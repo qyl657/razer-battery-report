@@ -181,8 +181,8 @@ impl TrayApp {
 
                 let mut guard = devices.lock();
 
-                for id in removed_devices {
-                    if let Some(device) = guard.remove(&id) {
+                for id in &removed_devices {
+                    if let Some(device) = guard.remove(id) {
                         info!("Device removed: {}", device.name);
                         let _ = notify.device_disconnected(&device.name);
                     }
@@ -200,23 +200,25 @@ impl TrayApp {
                     }
                 }
 
-                if battery_update_counter == 0 {
+                if battery_update_counter == 0 || !connected_devices.is_empty() || !removed_devices.is_empty() {
                     for (&id, device) in guard.iter_mut() {
-                        let old_level = device.battery_level;
-                        let old_charging = device.is_charging;
+                        if battery_update_counter == 0 || connected_devices.contains(&id) {
+                            let old_level = device.battery_level;
+                            let old_charging = device.is_charging;
 
-                        if let Some(level) = manager.get_device_battery_level(id) {
-                            info!("{}  battery level: {}%", device.name, level);
-                            device.old_battery_level = device.battery_level;
-                            device.battery_level = level;
-                        }
-                        if let Some(charging) = manager.is_device_charging(id) {
-                            info!("{}  charging status: {}", device.name, charging);
-                            device.is_charging = charging;
-                        }
+                            if let Some(level) = manager.get_device_battery_level(id) {
+                                info!("{}  battery level: {}%", device.name, level);
+                                device.old_battery_level = device.battery_level;
+                                device.battery_level = level;
+                            }
+                            if let Some(charging) = manager.is_device_charging(id) {
+                                info!("{}  charging status: {}", device.name, charging);
+                                device.is_charging = charging;
+                            }
 
-                        if device.battery_level != old_level || device.is_charging != old_charging {
-                            check_notify(device, &notify);
+                            if device.battery_level != old_level || device.is_charging != old_charging {
+                                check_notify(device, &notify);
+                            }
                         }
                     }
                 }
@@ -292,6 +294,14 @@ impl TrayApp {
         tray_icon: &Rc<Mutex<Option<TrayIcon>>>,
     ) {
         let guard = devices.lock();
+
+        if guard.is_empty() {
+            if let Some(tray) = tray_icon.lock().as_mut() {
+                let _ = tray.set_tooltip(Some(String::from("No Razer devices detected")));
+            }
+            return;
+        }
+
         let Some(device) = guard.values().next() else {
             return;
         };
