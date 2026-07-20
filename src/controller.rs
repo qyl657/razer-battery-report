@@ -112,7 +112,7 @@ impl DeviceController {
         let device_info = RAZER_DEVICE_LIST.iter().find(|device| device.pid == pid);
 
         let transaction_id = device_info.map_or(0x3F, |device| device.transaction_id());
-        let swappable_battery = device_info.map_or(false, |device| device.swappable_battery);
+        let swappable_battery = device_info.is_some_and(|device| device.swappable_battery);
 
         Ok(DeviceController {
             handle,
