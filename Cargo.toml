@@ -27,8 +27,8 @@ log = "0.4.29"
 pretty_env_logger = "0.5.0"
 
 # Event Loop and Tray Icon
-tao = "0.34.5"
-tray-icon = "0.21.2"
+tao = "0.35.3"
+tray-icon = "0.24.1"
 
 # Image manipulation
 image = "0.25.9"
