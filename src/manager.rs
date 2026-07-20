@@ -35,7 +35,11 @@ impl DeviceManager {
             }
         }
 
-        let old_ids: HashSet<u32> = self.device_controllers.iter().map(|c| c.pid as u32).collect();
+        let old_ids: HashSet<u32> = self
+            .device_controllers
+            .iter()
+            .map(|c| c.pid as u32)
+            .collect();
 
         let new_controllers = {
             let api = self.api.as_ref().unwrap();
@@ -52,7 +56,10 @@ impl DeviceManager {
     }
 
     pub fn device_pids(&self) -> HashSet<u32> {
-        self.device_controllers.iter().map(|c| c.pid as u32).collect()
+        self.device_controllers
+            .iter()
+            .map(|c| c.pid as u32)
+            .collect()
     }
 
     pub fn get_device_name(&self, id: u32) -> Option<String> {
@@ -63,7 +70,10 @@ impl DeviceManager {
     }
 
     pub fn get_device_battery_level(&self, id: u32) -> Option<i32> {
-        let controller = self.device_controllers.iter().find(|c| c.pid as u32 == id)?;
+        let controller = self
+            .device_controllers
+            .iter()
+            .find(|c| c.pid as u32 == id)?;
 
         match controller.get_battery_level() {
             Ok(level) => Some(level),
@@ -75,7 +85,10 @@ impl DeviceManager {
     }
 
     pub fn is_device_charging(&self, id: u32) -> Option<bool> {
-        let controller = self.device_controllers.iter().find(|c| c.pid as u32 == id)?;
+        let controller = self
+            .device_controllers
+            .iter()
+            .find(|c| c.pid as u32 == id)?;
 
         if controller.swappable_battery {
             return Some(false);
@@ -96,8 +109,7 @@ impl DeviceManager {
             .map(|d| ((d.vid, d.pid), d))
             .collect();
 
-        api
-            .device_list()
+        api.device_list()
             .filter_map(|hid_device| {
                 razer_devices
                     .get(&(hid_device.vendor_id(), hid_device.product_id()))

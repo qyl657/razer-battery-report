@@ -99,7 +99,7 @@ pub struct DeviceController {
     pub pid: u16,
     pub report_id: u8,
     pub transaction_id: u8,
-    pub swappable_battery: bool
+    pub swappable_battery: bool,
 }
 
 impl DeviceController {
@@ -109,9 +109,7 @@ impl DeviceController {
         let c_path = CString::new(path)?;
         let handle = api.open_path(c_path.as_ref())?;
 
-        let device_info = RAZER_DEVICE_LIST
-            .iter()
-            .find(|device| device.pid == pid);
+        let device_info = RAZER_DEVICE_LIST.iter().find(|device| device.pid == pid);
 
         let transaction_id = device_info.map_or(0x3F, |device| device.transaction_id());
         let swappable_battery = device_info.map_or(false, |device| device.swappable_battery);
@@ -122,7 +120,7 @@ impl DeviceController {
             pid,
             report_id: 0x00,
             transaction_id,
-            swappable_battery
+            swappable_battery,
         })
     }
 

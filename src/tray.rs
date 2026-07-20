@@ -200,7 +200,10 @@ impl TrayApp {
                     }
                 }
 
-                if battery_update_counter == 0 || !connected_devices.is_empty() || !removed_devices.is_empty() {
+                if battery_update_counter == 0
+                    || !connected_devices.is_empty()
+                    || !removed_devices.is_empty()
+                {
                     for (&id, device) in guard.iter_mut() {
                         if battery_update_counter == 0 || connected_devices.contains(&id) {
                             let old_level = device.battery_level;
@@ -216,7 +219,9 @@ impl TrayApp {
                                 device.is_charging = charging;
                             }
 
-                            if device.battery_level != old_level || device.is_charging != old_charging {
+                            if device.battery_level != old_level
+                                || device.is_charging != old_charging
+                            {
                                 check_notify(device, &notify);
                             }
                         }
@@ -317,7 +322,11 @@ impl TrayApp {
                     "{}: {}%{}",
                     device.name,
                     device.battery_level,
-                    if device.is_charging { " (charging)" } else { "" }
+                    if device.is_charging {
+                        " (charging)"
+                    } else {
+                        ""
+                    }
                 )));
             }
         }
@@ -357,10 +366,7 @@ fn check_notify(device: &MemoryDevice, notify: &Notify) {
         if let Err(e) = notify.battery_low(&device.name, device.battery_level) {
             warn!("Failed to send low battery notification: {}", e);
         }
-    } else if device.old_battery_level <= 99
-        && device.battery_level == 100
-        && device.is_charging
-    {
+    } else if device.old_battery_level <= 99 && device.battery_level == 100 && device.is_charging {
         info!(
             "{}: Battery fully charged ({}%)",
             device.name, device.battery_level
