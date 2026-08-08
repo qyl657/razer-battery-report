@@ -22,6 +22,8 @@ Show your wireless Razer devices battery levels in your system tray.
 | Razer DeathAdder V3 HyperSpeed (Wireless)                  | 1532:00C5   |
 | Razer DeathAdder V2 Pro (Wired)                            | 1532:007C   |
 | Razer DeathAdder V2 Pro (Wireless)                         | 1532:007D   |
+| Razer DeathAdder V4 Pro (Wired)                            | 1532:00BE   |
+| Razer DeathAdder V4 Pro (Wireless)                         | 1532:00BF   |
 | Razer Basilisk V3 Pro (Wired)                              | 1532:00AA   |
 | Razer Basilisk V3 Pro (Wireless)                           | 1532:00AB   |
 | Razer Basilisk V3 Pro 35K (Wired)                          | 1532:00CC   |

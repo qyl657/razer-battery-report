@@ -41,7 +41,9 @@ impl DeviceInfo {
                 || pid == RAZER_BASILISK_V3_PRO_35K_PHANTOM_GREEN_EDITION_WIRED.pid
                 || pid == RAZER_BASILISK_V3_PRO_35K_PHANTOM_GREEN_EDITION_WIRELESS.pid
                 || pid == RAZER_OROCHI_V2.pid
-                || pid == RAZER_OROCHI_V2_BT.pid =>
+                || pid == RAZER_OROCHI_V2_BT.pid
+                || pid == RAZER_DEATHADDER_V4_PRO_WIRED.pid
+                || pid == RAZER_DEATHADDER_V4_PRO_WIRELESS.pid =>
             {
                 0x1F
             }
@@ -122,7 +124,12 @@ pub const RAZER_BASILISK_V3_PRO_35K_PHANTOM_GREEN_EDITION_WIRELESS: DeviceInfo =
     false,
 );
 
-pub const RAZER_DEVICE_LIST: [DeviceInfo; 16] = [
+pub const RAZER_DEATHADDER_V4_PRO_WIRED: DeviceInfo =
+    DeviceInfo::new("Razer DeathAdder V4 Pro (Wired)", 0x00BE, 0, 1, 2, false);
+pub const RAZER_DEATHADDER_V4_PRO_WIRELESS: DeviceInfo =
+    DeviceInfo::new("Razer DeathAdder V4 Pro (Wireless)", 0x00BF, 0, 1, 2, false);
+
+pub const RAZER_DEVICE_LIST: [DeviceInfo; 18] = [
     RAZER_DEATHADDER_V3_PRO_WIRED,
     RAZER_DEATHADDER_V3_PRO_WIRELESS,
     RAZER_DEATHADDER_V3_HYPERSPEED_WIRED,
@@ -137,6 +144,8 @@ pub const RAZER_DEVICE_LIST: [DeviceInfo; 16] = [
     RAZER_BASILISK_V3_PRO_35K_WIRELESS,
     RAZER_BASILISK_V3_PRO_35K_PHANTOM_GREEN_EDITION_WIRED,
     RAZER_BASILISK_V3_PRO_35K_PHANTOM_GREEN_EDITION_WIRELESS,
+    RAZER_DEATHADDER_V4_PRO_WIRED,
+    RAZER_DEATHADDER_V4_PRO_WIRELESS,
     RAZER_OROCHI_V2,
     RAZER_OROCHI_V2_BT,
 ];
