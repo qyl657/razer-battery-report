@@ -31,6 +31,8 @@ impl DeviceInfo {
     pub const fn transaction_id(&self) -> u8 {
         match self.pid {
             pid if pid == RAZER_DEATHADDER_V3_PRO_WIRED.pid
+                || pid == Razer_Basilisk_Mobile_Wired.pid
+                || pid == Razer_Basilisk_Mobile_Receiver.pid
                 || pid == RAZER_DEATHADDER_V3_PRO_WIRELESS.pid
                 || pid == RAZER_DEATHADDER_V3_HYPERSPEED_WIRED.pid
                 || pid == RAZER_DEATHADDER_V3_HYPERSPEED_WIRELESS.pid
@@ -52,6 +54,10 @@ impl DeviceInfo {
     }
 }
 
+pub const Razer_Basilisk_Mobile_Wired: DeviceInfo =
+    DeviceInfo::new("Razer Basilisk Mobile (Wired)", 0x00D3, 0, 1, 2, false);
+pub const Razer_Basilisk_Mobile_Receiver: DeviceInfo =
+    DeviceInfo::new("Razer Basilisk Mobile (Receiver)", 0x00D4, 0, 1, 2, false);
 pub const RAZER_DEATHADDER_V3_PRO_WIRED: DeviceInfo =
     DeviceInfo::new("Razer DeathAdder V3 Pro (Wired)", 0x00B6, 0, 1, 2, false);
 pub const RAZER_DEATHADDER_V3_PRO_WIRELESS: DeviceInfo =
@@ -129,9 +135,11 @@ pub const RAZER_DEATHADDER_V4_PRO_WIRED: DeviceInfo =
 pub const RAZER_DEATHADDER_V4_PRO_WIRELESS: DeviceInfo =
     DeviceInfo::new("Razer DeathAdder V4 Pro (Wireless)", 0x00BF, 0, 1, 2, false);
 
-pub const RAZER_DEVICE_LIST: [DeviceInfo; 18] = [
+pub const RAZER_DEVICE_LIST: [DeviceInfo; 20] = [
     RAZER_DEATHADDER_V3_PRO_WIRED,
     RAZER_DEATHADDER_V3_PRO_WIRELESS,
+    Razer_Basilisk_Mobile_Receiver,
+    Razer_Basilisk_Mobile_Wired,
     RAZER_DEATHADDER_V3_HYPERSPEED_WIRED,
     RAZER_DEATHADDER_V3_HYPERSPEED_WIRELESS,
     RAZER_DEATHADDER_V2_PRO_WIRED,
