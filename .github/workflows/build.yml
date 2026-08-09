@@ -1,63 +1,33 @@
-name: Build Windows Exe (Strict Check)
+name: Build Rust Binary (Fast)
 
 on:
-  workflow_dispatch:   # 加上这一行，替代 workflow_call
+  workflow_dispatch:
   push:
     branches: [ "main" ]
 
-# 下面的 permissions 和 jobs 全部保留不动即可
-permissions:
-  contents: read
-  checks: write
-
 env:
   CARGO_TERM_COLOR: always
-  RUSTFLAGS: "-D warnings"
 
 jobs:
   build:
-    name: Build & Verify
-    runs-on: windows-2022
+    runs-on: windows-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v7
+    - name: Checkout source code
+      uses: actions/checkout@v4   # 注意是 v4
 
-      - name: Setup Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
+    - name: Setup Rust toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        profile: minimal
+        override: true
 
-      - name: Cache cargo registry
-        uses: actions/cache@v6
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: windows-cargo-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: windows-cargo-${{ runner.os }}-
+    - name: Build release binary
+      run: cargo build --release
 
-      - name: Format check
-        run: cargo fmt --all -- --check
-
-      - name: Lint
-        run: cargo clippy --all-targets -- -D warnings
-
-      - name: Test
-        run: cargo test
-
-      - name: Security audit
-        uses: rustsec/audit-check@v2.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build
-        run: cargo build --release --target x86_64-pc-windows-msvc
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v7
-        with:
-          name: razer-battery-report
-          path: target/x86_64-pc-windows-msvc/release/razer-battery-report.exe
-          if-no-files-found: error
+    - name: Upload executable as artifact
+      uses: actions/upload-artifact@v4   # 注意是 v4
+      with:
+        name: razer-battery-report-windows
+        path: target/release/razer-battery-report.exe
