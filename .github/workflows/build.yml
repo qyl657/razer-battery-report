@@ -1,8 +1,11 @@
-name: Build
+name: Build Windows Exe (Strict Check)
 
 on:
-  workflow_call:
+  workflow_dispatch:   # 加上这一行，替代 workflow_call
+  push:
+    branches: [ "main" ]
 
+# 下面的 permissions 和 jobs 全部保留不动即可
 permissions:
   contents: read
   checks: write
